@@ -29,3 +29,21 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+
+
+// const allSections = document.querySelectorAll('.section');
+
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+ btnScrollTo.addEventListener('click', function() { 
+  // const s1coords = document.getBoundingCLientRect();
+//   window.scrollTo({
+//     left: s1coords.left = window.pageXOffset,
+//     top: s1coords.top = window.pageYOffset,
+//     behaviour: 'smooth'
+//   });
+//  }); 
+
+section1.scrollIntoView({ behavior: 'smooth' });
+});
