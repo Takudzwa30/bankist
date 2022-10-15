@@ -81,6 +81,30 @@ tabsContainer.addEventListener('click', (e) => {
 
   //Active content area
   document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
-
-
 })
+
+////////////////////////////////////////////////////////////////////////
+//Menu fade
+
+const nav = document.querySelector('.nav');
+
+nav.addEventListener('mouseover', (e) => {
+  // e.preventDefault();
+
+  if(e.target.classList.contains('nav__link')){
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelector('.nav__link');
+
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(el => {
+      if(el !== link) el.style.opacity = '0.5';
+
+    })
+    logo.style.opacity = '0.5';
+  }
+});
+
+nav.addEventListener('mouseout', (e) => {
+  e.preventDefault();
+});
