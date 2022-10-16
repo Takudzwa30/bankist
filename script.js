@@ -127,7 +127,7 @@ nav.addEventListener("mouseout", handleHover.bind(1));
 // }
 
 // const  obsOptions = {
-//   root: null, 
+//   root: null,
 //   threshold: [0, 0.2, ]
 
 // }
@@ -135,23 +135,20 @@ nav.addEventListener("mouseout", handleHover.bind(1));
 // const observer = new IntersectionObserver(obsCallback, obsOptions);
 // observer.observe(section1);
 
-
-
-
 //intersectionObserver
-const header = document.querySelector('header');
+const header = document.querySelector("header");
 const navHeight = nav.getBoundingClientRect().height;
- 
-const stickyNav = (entries)=>{
-  const[entry] = entries;
-  console.log(entry);
 
-  if(!entry.isIntersecting){
-  nav.classList.add("sticky");
-}else{
-  nav.classList.remove("sticky");
-}
-}
+const stickyNav = (entries) => {
+  const [entry] = entries;
+  // console.log(entry);
+
+  if (!entry.isIntersecting) {
+    nav.classList.add("sticky");
+  } else {
+    nav.classList.remove("sticky");
+  }
+};
 const headerObserver = new IntersectionObserver(stickyNav, {
   root: null,
   threshold: 0,
@@ -163,25 +160,57 @@ headerObserver.observe(header);
 ////////////////////////////////////////////////////////////////
 //Reveal sections
 
-const allSections = document.querySelectorAll('.section');
+const allSections = document.querySelectorAll(".section");
 
-const revealSection = function (entries, observer){
+const revealSection = function (entries, observer) {
   const [entry] = entries;
-  console.log(entry);
+  // console.log(entry);
 
-if (!entry.isIntersecting) return;
-  entry.target.classList.remove('section--hidden');
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove("section--hidden");
   observer.unobserve(entry.target);
-}
+};
 
 const sectionObserver = new IntersectionObserver(revealSection, {
-  root: null, 
-  threshold: 0.15
+  root: null,
+  threshold: 0.15,
 });
 
-allSections.forEach(function (section){
+allSections.forEach(function (section) {
   sectionObserver.observe(section);
-  section.classList.add('section--hidden');
-})
+  section.classList.add("section--hidden");
+});
 
 //Lazy Loading images
+
+const imgTargets = document.querySelectorAll("img[data-src]");
+// console.log(imgTargets)
+
+const loadImage = (entries, observer) => {
+  const [entry] = entries;
+  // console.log(entry);
+
+  if (!entry.isIntersecting) return;
+
+  //Replace src with data-src
+  entry.target.src = entry.target.dataset.src;
+
+  //listen to the load event and remove the blured image
+  entry.target.addEventListener('load', () =>{
+    entry.target.classList.remove('lazy-img');
+  });
+
+  //stop observing 
+  observer.unobserve(entry.target);
+
+};
+
+const imageObserver = new IntersectionObserver(loadImage, {
+  root: null,
+  threshold: 0,
+  rootMargin: "200px"
+});
+
+imgTargets.forEach(img=>{
+  imageObserver.observe(img);
+})
